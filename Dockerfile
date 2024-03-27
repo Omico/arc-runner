@@ -18,7 +18,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     jq \
     unzip \
     wget \
-    zip
+    zip \
+    zstd
 
 RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
 
