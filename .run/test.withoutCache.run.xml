@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="test" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+  <configuration default="false" name="test.withoutCache" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
     <deployment type="dockerfile">
       <settings>
+        <option name="buildCliOptions" value="--no-cache" />
         <option name="buildOnly" value="true" />
         <option name="containerName" value="arc-runner" />
         <option name="sourceFilePath" value="Dockerfile" />
