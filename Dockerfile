@@ -70,6 +70,8 @@ RUN yes | sudo sdkmanager --licenses
 RUN sudo sdkmanager \
     "platform-tools" \
     "build-tools;34.0.0" \
-    "platforms;android-34"
+    "build-tools;35.0.0" \
+    "platforms;android-34" \
+    "platforms;android-35"
 
 RUN sudo rm -rf ${ANDROID_HOME}/.temp
