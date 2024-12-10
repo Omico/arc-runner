@@ -2,7 +2,8 @@
   <configuration default="false" name="test" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
     <deployment type="dockerfile">
       <settings>
-        <option name="buildOnly" value="true" />
+        <option name="imageTag" value="omico/actions-runner" />
+        <option name="attachToContainerNeeded" value="true" />
         <option name="containerName" value="arc-runner" />
         <option name="sourceFilePath" value="Dockerfile" />
       </settings>
