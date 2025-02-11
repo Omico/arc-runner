@@ -1,0 +1,13 @@
+FROM omico/actions-runner
+
+VOLUME /home/runner/.gradle
+
+WORKDIR /home/runner/work/actions-runner
+
+RUN git clone https://github.com/Omico/picsum.git --depth 1
+
+WORKDIR /home/runner/work/actions-runner/picsum
+
+RUN ./gradlew --no-daemon && git clean -fdx
+
+RUN ./gradlew assembleDebug --no-daemon && git clean -fdx
