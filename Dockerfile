@@ -6,18 +6,17 @@ RUN sudo rm -f /etc/apt/apt.conf.d/docker-clean
 
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
-    sudo apt-get update && sudo apt-get upgrade -y
+    sudo ./bin/installdependencies.sh
 
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
-    sudo apt-get install -y --no-install-recommends \
+    sudo apt update && sudo apt upgrade -y
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    sudo apt install -y \
     apt-transport-https \
-    curl \
-    git \
-    gpg \
-    jq \
     p7zip-full \
-    unzip \
     wget \
     zip \
     zstd
@@ -36,7 +35,7 @@ RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION
 
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
-    sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+    sudo apt update && sudo apt install -y \
     temurin-21-jdk \
     temurin-17-jdk \
     temurin-11-jdk \
@@ -45,7 +44,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash \
-    && sudo apt-get install -y --no-install-recommends git-lfs
+    && sudo apt install -y git-lfs
 
 ENV GRADLE_HOME=/opt/gradle
 
@@ -71,7 +70,7 @@ RUN yes | sudo sdkmanager --licenses
 RUN sudo sdkmanager \
     "platform-tools" \
     "build-tools;34.0.0" \
-    "build-tools;35.0.0" \
+    "build-tools;35.0.1" \
     "platforms;android-34" \
     "platforms;android-35"
 
