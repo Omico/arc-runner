@@ -15,11 +15,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
     sudo apt install -y \
-    apt-transport-https \
-    p7zip-full \
-    wget \
-    zip \
-    zstd
+      apt-transport-https \
+      p7zip-full \
+      wget \
+      zip \
+      zstd
 
 RUN wget -qO - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo tee /usr/share/keyrings/chrome-keyring.gpg > /dev/null
 
