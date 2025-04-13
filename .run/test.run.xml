@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="omico/actions-runners-tester" />
         <option name="attachToContainerNeeded" value="true" />
-        <option name="buildCliOptions" value="--progress=plain" />
+        <option name="buildCliOptions" value="--progress=plain --platform linux/amd64" />
         <option name="containerName" value="actions-runners-tester" />
         <option name="sourceFilePath" value="Dockerfile.test" />
       </settings>

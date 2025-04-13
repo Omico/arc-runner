@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="omico/actions-runner" />
         <option name="attachToContainerNeeded" value="true" />
-        <option name="buildCliOptions" value="--progress=plain" />
+        <option name="buildCliOptions" value="--progress=plain --platform linux/amd64" />
         <option name="containerName" value="arc-runner" />
         <option name="sourceFilePath" value="Dockerfile" />
       </settings>
