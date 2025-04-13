@@ -1,6 +1,6 @@
 FROM ghcr.io/actions/actions-runner:latest
 
-ARG ANDROID_SDK_TOOLS_VERSION=11076708
+ARG ANDROID_SDK_TOOLS_VERSION=13114758
 
 RUN sudo rm -f /etc/apt/apt.conf.d/docker-clean
 
