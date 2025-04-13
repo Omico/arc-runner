@@ -51,5 +51,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           provenance: false
           platforms: linux/amd64
+          build-args: |
+            CACHE_BUSTER=${{ steps.meta.outputs.version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

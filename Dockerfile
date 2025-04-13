@@ -1,6 +1,6 @@
 FROM ghcr.io/actions/actions-runner:latest
 
-ARG ANDROID_SDK_TOOLS_VERSION=13114758
+ARG CACHE_BUSTER=1
 
 RUN sudo rm -f /etc/apt/apt.conf.d/docker-clean
 
@@ -55,23 +55,38 @@ RUN GRADLE_DISTRIBUTION_URL=$(curl -s "https://services.gradle.org/versions/curr
     sudo ln -s ${GRADLE_HOME}/bin/gradle /usr/local/bin/gradle; \
     rm /tmp/gradle.zip
 
-ENV ANDROID_HOME=/opt/android/sdk
+ENV ANDROID_ROOT=/usr/local/lib/android
+ENV ANDROID_SDK_ROOT=${ANDROID_ROOT}/sdk
+ENV ANDROID_HOME=${ANDROID_SDK_ROOT}
 
-RUN curl https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip -o /tmp/android-sdk-tools.zip \
-    && sudo mkdir -p ${ANDROID_HOME}/cmdline-tools \
-    && sudo unzip -d ${ANDROID_HOME}/cmdline-tools /tmp/android-sdk-tools.zip \
-    && sudo mv ${ANDROID_HOME}/cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/latest \
+RUN ANDROID_SDK_TOOLS_VERSION="13114758" \
+    && curl https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip -o /tmp/android-sdk-tools.zip \
+    && sudo mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools \
+    && sudo unzip -d ${ANDROID_SDK_ROOT}/cmdline-tools /tmp/android-sdk-tools.zip \
+    && sudo mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest \
     && rm /tmp/android-sdk-tools.zip
 
-ENV PATH=${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}
+ENV PATH=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${PATH}
 
 RUN yes | sudo sdkmanager --licenses
 
-RUN sudo sdkmanager \
-    "platform-tools" \
-    "build-tools;34.0.0" \
-    "build-tools;35.0.1" \
-    "platforms;android-34" \
-    "platforms;android-35"
+RUN sudo sdkmanager "platform-tools"
 
-RUN sudo rm -rf ${ANDROID_HOME}/.temp
+RUN sudo sdkmanager "platforms;android-34"
+RUN sudo sdkmanager "build-tools;34.0.0"
+
+RUN sudo sdkmanager "platforms;android-35"
+RUN sudo sdkmanager "build-tools;35.0.0"
+RUN sudo sdkmanager "build-tools;35.0.1"
+
+RUN sudo sdkmanager "platforms;android-36"
+RUN sudo sdkmanager "build-tools;36.0.0"
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    echo "Forcing with cache buster: $CACHE_BUSTER" \
+    && sudo apt update && sudo apt upgrade -y
+
+RUN echo "Forcing with cache buster: $CACHE_BUSTER" \
+    && sudo sdkmanager --update \
+    && sudo rm -rf ${ANDROID_SDK_ROOT}/.temp

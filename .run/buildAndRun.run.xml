@@ -4,6 +4,14 @@
       <settings>
         <option name="imageTag" value="omico/actions-runner" />
         <option name="attachToContainerNeeded" value="true" />
+        <option name="buildArgs">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="CACHE_BUSTER" />
+              <option name="value" value="$(date +%F)" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
         <option name="buildCliOptions" value="--progress=plain --platform linux/amd64" />
         <option name="containerName" value="arc-runner" />
         <option name="sourceFilePath" value="Dockerfile" />
